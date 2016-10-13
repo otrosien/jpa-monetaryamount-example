@@ -13,21 +13,17 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 import java.net.URI;
 
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@SpringBootTest
 public class RestIntegrationTest {
 
     @Autowired
@@ -41,7 +37,7 @@ public class RestIntegrationTest {
     }
 
     @Test
-    public void should_1st_create_product() throws Exception {
+    public void should_test_product_via_rest() throws Exception {
         MvcResult result = mockMvc
                 .perform(post("/products")
                         .content("{\"price\": {\"amount\": 1.23, \"currency\":\"EUR\" }}")
