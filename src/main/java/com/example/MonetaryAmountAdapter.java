@@ -18,7 +18,8 @@ public class MonetaryAmountAdapter {
 
         @Override
         public MonetaryAmount buildAttributeValue(Record record, Object object, Session session) {
-            Number amount = (Number) record.get("AMOUNT");
+            // TODO: Read column mappings from initialize() method.
+            BigDecimal amount = (BigDecimal) record.get("AMOUNT");
             String currency = (String) record.get("CURRENCY");
             if (amount == null || currency == null) {
                 return null;

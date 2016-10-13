@@ -9,3 +9,5 @@ spring:
   jpa:
     generate-ddl: true
     show-sql: true
+    properties:
+      eclipselink.logging.level: FINEST

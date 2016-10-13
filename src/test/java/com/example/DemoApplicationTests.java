@@ -2,7 +2,7 @@ package com.example;
 
 import static org.junit.Assert.assertEquals;
 
-import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 
 import org.javamoney.moneta.Money;
 import org.junit.Before;
@@ -19,11 +19,11 @@ public class DemoApplicationTests {
     @Autowired
     private ProductRepository productRepository;
 
-    private Product p1;
+    private Product p1 = new Product(Money.of(new BigDecimal("1.23"), "EUR"));
 
     @Before
     public void prepare() {
-        p1 = productRepository.save(new Product(Money.of(1L, "EUR")));
+        productRepository.save(p1);
     }
 
     @Test

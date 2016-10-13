@@ -1,6 +1,6 @@
 package com.example;
 
-import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.GenerationType.IDENTITY;
 
 import javax.money.MonetaryAmount;
 import javax.persistence.Access;
@@ -23,13 +23,13 @@ import org.eclipse.persistence.annotations.WriteTransformers;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy=AUTO)
+    @GeneratedValue(strategy=IDENTITY)
     Integer id;
 
     @Transformation(fetch=FetchType.EAGER, optional=true)
     @ReadTransformer(transformerClass=MonetaryAmountAdapter.ReadTransformer.class)
     @WriteTransformers({
-        @WriteTransformer(column=@Column(name="AMOUNT"), transformerClass=MonetaryAmountAdapter.WriteAmountTransformer.class),
+        @WriteTransformer(column=@Column(name="AMOUNT", columnDefinition="NUMERIC(17,4)"), transformerClass=MonetaryAmountAdapter.WriteAmountTransformer.class),
         @WriteTransformer(column=@Column(name="CURRENCY"), transformerClass=MonetaryAmountAdapter.WriteCurrencyTransformer.class)
     })
     MonetaryAmount price;
