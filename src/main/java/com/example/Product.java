@@ -27,10 +27,10 @@ public class Product {
     Integer id;
 
     @Transformation(fetch=FetchType.EAGER, optional=true)
-    @ReadTransformer(transformerClass=ReadTrans.class)
+    @ReadTransformer(transformerClass=MonetaryAmountAdapter.ReadTransformer.class)
     @WriteTransformers({
-        @WriteTransformer(column=@Column(name="AMOUNT"), transformerClass=WriteAmountTrans.class),
-        @WriteTransformer(column=@Column(name="CURRENCY"), transformerClass=WriteCurrencyTrans.class)
+        @WriteTransformer(column=@Column(name="AMOUNT"), transformerClass=MonetaryAmountAdapter.WriteAmountTransformer.class),
+        @WriteTransformer(column=@Column(name="CURRENCY"), transformerClass=MonetaryAmountAdapter.WriteCurrencyTransformer.class)
     })
     MonetaryAmount price;
 
