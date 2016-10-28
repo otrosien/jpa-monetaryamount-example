@@ -2,6 +2,7 @@ package com.example;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import javax.money.CurrencyUnit;
 import javax.money.MonetaryAmount;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -29,10 +30,12 @@ public class Product {
     @Transformation(fetch=FetchType.EAGER, optional=true)
     @ReadTransformer(transformerClass=MonetaryAmountAdapter.ReadTransformer.class)
     @WriteTransformers({
-        @WriteTransformer(column=@Column(name="AMOUNT", columnDefinition="NUMERIC(17,4)"), transformerClass=MonetaryAmountAdapter.WriteAmountTransformer.class),
-        @WriteTransformer(column=@Column(name="CURRENCY"), transformerClass=MonetaryAmountAdapter.WriteCurrencyTransformer.class)
+        @WriteTransformer(column=@Column(name="PRICE_AMOUNT", columnDefinition="NUMERIC(17,4)"), transformerClass=MonetaryAmountAdapter.WriteAmountTransformer.class),
+        @WriteTransformer(column=@Column(name="PRICE_CURRENCY"), transformerClass=MonetaryAmountAdapter.WriteCurrencyTransformer.class)
     })
     MonetaryAmount price;
+
+    CurrencyUnit currency;
 
     public Product() {} // JPA
 
@@ -54,4 +57,14 @@ public class Product {
     public void setPrice(MonetaryAmount price) {
         this.price = price;
     }
+
+    public CurrencyUnit getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(CurrencyUnit currency) {
+        this.currency = currency;
+    }
+
+    
 }

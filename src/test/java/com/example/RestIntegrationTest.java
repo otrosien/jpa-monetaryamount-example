@@ -40,7 +40,7 @@ public class RestIntegrationTest {
     public void should_test_product_via_rest() throws Exception {
         MvcResult result = mockMvc
                 .perform(post("/products")
-                        .content("{\"price\": {\"amount\": 1.23, \"currency\":\"EUR\" }}")
+                        .content("{\"currency\":\"EUR\", \"price\": {\"amount\": 1.23, \"currency\":\"EUR\" }}")
                         .contentType("application/json"))
         .andDo(print())
         .andExpect(status().isCreated())
@@ -50,11 +50,12 @@ public class RestIntegrationTest {
         result = mockMvc.perform(get(location))
         .andDo(print())
         .andExpect(status().isOk())
+        .andExpect(jsonPath("currency", is("EUR")))
         .andExpect(jsonPath("price.amount", is(1.23)))
         .andExpect(jsonPath("price.currency", is("EUR")))
         .andReturn();
 
-        result = mockMvc.perform(put(location).content("{\"price\": {\"amount\": 1.24, \"currency\":\"GBP\" }}"))
+        result = mockMvc.perform(put(location).content("{\"currency\":\"GBP\", \"price\": {\"amount\": 1.24, \"currency\":\"GBP\" }}"))
         .andDo(print())
         .andExpect(status().isNoContent())
         .andReturn();
@@ -62,11 +63,12 @@ public class RestIntegrationTest {
         result = mockMvc.perform(get(location))
         .andDo(print())
         .andExpect(status().isOk())
+        .andExpect(jsonPath("currency", is("GBP")))
         .andExpect(jsonPath("price.amount", is(1.24)))
         .andExpect(jsonPath("price.currency", is("GBP")))
         .andReturn();
 
-        result = mockMvc.perform(patch(location).content("{\"price\": {\"amount\": 1.25, \"currency\":\"USD\" }}"))
+        result = mockMvc.perform(patch(location).content("{\"currency\":\"USD\", \"price\": {\"amount\": 1.25, \"currency\":\"USD\" }}"))
         .andDo(print())
         .andExpect(status().isNoContent())
         .andReturn();
@@ -74,6 +76,7 @@ public class RestIntegrationTest {
         result = mockMvc.perform(get(location))
         .andDo(print())
         .andExpect(status().isOk())
+        .andExpect(jsonPath("currency", is("USD")))
         .andExpect(jsonPath("price.amount", is(1.25)))
         .andExpect(jsonPath("price.currency", is("USD")))
         .andReturn();
