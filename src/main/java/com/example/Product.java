@@ -4,6 +4,10 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -21,9 +25,14 @@ public class Product {
     @GeneratedValue(strategy=IDENTITY)
     Integer id;
 
+    @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(column = @Column(name = "PRICE_AMOUNT", scale = 4, precision = 17), name = "money.amount"),
+        @AttributeOverride(column = @Column(name = "PRICE_CURRENCY", length = 10), name = "money.currency")
+    })
     Money price;
 
-    org.joda.money.CurrencyUnit currency;
+    CurrencyUnit currency;
 
     public Product() {} // JPA
 
@@ -54,5 +63,4 @@ public class Product {
         this.currency = currency;
     }
 
-    
 }

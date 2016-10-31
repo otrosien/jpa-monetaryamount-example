@@ -11,16 +11,20 @@ import org.joda.money.Money;
 import org.springframework.util.Assert;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 
-public class MoneyDeserializer extends JsonDeserializer<Money> {
+public class MoneyDeserializer extends StdDeserializer<Money> {
+
+    public MoneyDeserializer() {
+        super(Money.class);
+    }
 
     @Override
-    public Money deserialize(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException {
+    public Money deserialize(JsonParser parser, DeserializationContext context) throws IOException {
         BigDecimal amount = null;
         CurrencyUnit currency = null;
 
@@ -41,8 +45,10 @@ public class MoneyDeserializer extends JsonDeserializer<Money> {
             }
         }
 
-        Assert.notNull(amount, "amount");
-        Assert.notNull(currency, "currency");
+        if(amount == null || currency == null) {
+            return null;
+        }
+
         return Money.of(currency, amount);
     }
 

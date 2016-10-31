@@ -20,23 +20,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleDeserializers;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.module.SimpleSerializers;
+import com.fasterxml.jackson.databind.module.SimpleValueInstantiators;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 @Configuration
 public class JacksonCustomization implements Jackson2ObjectMapperBuilderCustomizer {
-
-    private static final String SPRING_HATEOAS_OBJECT_MAPPER = "_halObjectMapper";
-
-
-    @Autowired
-    @Qualifier(SPRING_HATEOAS_OBJECT_MAPPER)
-    private ObjectMapper springHateoasObjectMapper;
-
-    @Bean(name = "objectMapper")
-    @Primary
-    ObjectMapper objectMapper(Jackson2ObjectMapperBuilder jacksonObjectMapperBuilder) {
-        jacksonObjectMapperBuilder.configure(springHateoasObjectMapper);
-        return springHateoasObjectMapper;
-    }
 
     @Bean
     public MoneyModule moneyModule() {
@@ -66,8 +54,12 @@ public class JacksonCustomization implements Jackson2ObjectMapperBuilderCustomiz
 
             final SimpleDeserializers deserializers = new SimpleDeserializers();
             deserializers.addDeserializer(Money.class, new MoneyDeserializer());
-            deserializers.addDeserializer(CurrencyUnit.class, new CurrencyUnitDeserializer());
             context.addDeserializers(deserializers);
+
+            final SimpleValueInstantiators instantiators = new SimpleValueInstantiators();
+            instantiators.addValueInstantiator(CurrencyUnit.class, new CurrencyUnitDeserializer());
+            context.addValueInstantiators(instantiators);
+
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.NONE;
 
@@ -31,7 +32,7 @@ public class DemoApplicationTests {
     @Test
     public void check() {
         Product p2 = productRepository.findOne(p1.getId());
-        assertEquals(p1.getPrice(), p2.getPrice());
+        assertThat(p1.getPrice()).isEqualByComparingTo(p2.getPrice());
     }
 
 }
