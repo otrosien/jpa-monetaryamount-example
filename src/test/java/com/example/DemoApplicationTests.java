@@ -5,7 +5,6 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 import java.math.BigDecimal;
 
-import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.junit.Before;
@@ -22,7 +21,7 @@ public class DemoApplicationTests {
     @Autowired
     private ProductRepository productRepository;
 
-    private Product p1 = new Product(new Price(new BigDecimal("1.23"), CurrencyUnit.EUR));
+    private Product p1 = new Product(new Price(Money.of(CurrencyUnit.EUR, new BigDecimal("1.23"))));
 
     @Before
     public void prepare() {

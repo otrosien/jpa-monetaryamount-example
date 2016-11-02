@@ -35,12 +35,12 @@ dependencyManagement {
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
-//    {
-//        exclude module: 'hibernate-entitymanager'
-//    }
+    {
+        exclude module: 'hibernate-entitymanager'
+    }
     testCompile('org.springframework.boot:spring-boot-starter-test')
     compile('com.google.guava:guava:19.0')
-//    compile 'org.eclipse.persistence:org.eclipse.persistence.jpa:2.6.3'
+    compile 'org.eclipse.persistence:org.eclipse.persistence.jpa:2.6.3'
     compile('org.springframework.boot:spring-boot-starter-data-rest')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile("com.fasterxml.jackson.module:jackson-module-parameter-names")

@@ -12,6 +12,7 @@ import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Embeddable
@@ -26,20 +27,29 @@ public class Price {
     private Price() { /* JPA */ }
 
     @JsonCreator
-    public Price(@JsonProperty("amount") BigDecimal amount, @JsonProperty("currency") CurrencyUnit currency) {
+    private Price(@JsonProperty("amount") BigDecimal amount, @JsonProperty("currency") CurrencyUnit currency) {
         this.amount = amount;
         this.currency = currency;
     }
 
-    public BigDecimal getAmount() {
+    public Price(Money money) {
+        this.amount = money.getAmount();
+        this.currency = money.getCurrencyUnit();
+    }
+
+    @JsonGetter
+    private BigDecimal getAmount() {
         return amount;
     }
 
-    public CurrencyUnit getCurrency() {
+    @JsonGetter
+    private CurrencyUnit getCurrency() {
         return currency;
     }
 
     public Money moneyValue() {
+        // this doesn't work:
+        // return Money.of(currency, amount);
         return BigMoney.of(currency, amount).toMoney();
     }
 }

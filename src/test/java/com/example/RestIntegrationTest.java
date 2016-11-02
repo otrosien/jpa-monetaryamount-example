@@ -1,6 +1,6 @@
 package com.example;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.springframework.data.rest.webmvc.RestMediaTypes.JSON_PATCH_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -18,7 +18,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -46,9 +45,9 @@ public class RestIntegrationTest {
         mockMvc.perform(get(location))
         .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(jsonPath("currency", is("EUR")))
-        .andExpect(jsonPath("price.amount", is(1.23)))
-        .andExpect(jsonPath("price.currency", is("EUR")))
+        .andExpect(jsonPath("currency", equalTo("EUR")))
+        .andExpect(jsonPath("price.amount", equalTo(1.23)))
+        .andExpect(jsonPath("price.currency", equalTo("EUR")))
         .andReturn();
     }
 
@@ -62,9 +61,9 @@ public class RestIntegrationTest {
         mockMvc.perform(get(location))
         .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(jsonPath("currency", is("GBP")))
-        .andExpect(jsonPath("price.amount", is(1.24)))
-        .andExpect(jsonPath("price.currency", is("GBP")))
+        .andExpect(jsonPath("currency", equalTo("GBP")))
+        .andExpect(jsonPath("price.amount", equalTo(1.24)))
+        .andExpect(jsonPath("price.currency", equalTo("GBP")))
         .andReturn();
     }
 
@@ -78,16 +77,17 @@ public class RestIntegrationTest {
         mockMvc.perform(get(location))
         .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(jsonPath("currency", is("USD")))
-        .andExpect(jsonPath("price.amount", is(1.25)))
-        .andExpect(jsonPath("price.currency", is("USD")))
+        .andExpect(jsonPath("currency", equalTo("USD")))
+        .andExpect(jsonPath("price.amount", equalTo(1.25)))
+        .andExpect(jsonPath("price.currency", equalTo("USD")))
         .andReturn();
     }
 
     @Test
     public void should_patch_with_json_patch() throws Exception {
         mockMvc.perform(patch(location)
-                .content("[{\"op\":\"replace\",\"path\":\"/price\",\"value\":{\"amount\":\"1.26\", \"currency\":\"CHF\"}}]")
+                .content("[{\"op\":\"replace\",\"path\":\"/price\",\"value\":{\"amount\":\"1.26\", \"currency\":\"CHF\"}},"
+                        + "{\"op\":\"replace\",\"path\":\"/currency\",\"value\":\"CHF\"}]")
                 .contentType(JSON_PATCH_JSON))
         .andDo(print())
         .andExpect(status().isNoContent())
@@ -96,8 +96,9 @@ public class RestIntegrationTest {
         mockMvc.perform(get(location))
         .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(jsonPath("price.amount", is(1.26)))
-        .andExpect(jsonPath("price.currency", is("CHF")))
+        .andExpect(jsonPath("currency", equalTo("CHF")))
+        .andExpect(jsonPath("price.amount", equalTo(1.26)))
+        .andExpect(jsonPath("price.currency", equalTo("CHF")))
         .andReturn();
     }
 
