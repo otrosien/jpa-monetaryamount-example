@@ -22,7 +22,7 @@ public class DemoApplicationTests {
     @Autowired
     private ProductRepository productRepository;
 
-    private Product p1 = new Product(BigMoney.of(CurrencyUnit.EUR, new BigDecimal("1.23")));
+    private Product p1 = new Product(new Price(new BigDecimal("1.23"), CurrencyUnit.EUR));
 
     @Before
     public void prepare() {
@@ -32,7 +32,7 @@ public class DemoApplicationTests {
     @Test
     public void check() {
         Product p2 = productRepository.findOne(p1.getId());
-        assertThat(p1.getPrice()).isEqualByComparingTo(p2.getPrice());
+        assertThat(p1.getPrice().moneyValue()).isEqualByComparingTo(p2.getPrice().moneyValue());
     }
 
 }

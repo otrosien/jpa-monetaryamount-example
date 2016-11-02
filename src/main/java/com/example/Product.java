@@ -13,13 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
-
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -35,15 +29,13 @@ public class Product {
         @AttributeOverride(column = @Column(name = "PRICE_AMOUNT", scale = 4, precision = 17), name = "amount"),
         @AttributeOverride(column = @Column(name = "PRICE_CURRENCY", length = 10), name = "currency")
     })
-    @JsonUnwrapped
-    @JsonDeserialize(using=MoneyDeserializer.class)
-    BigMoney price;
+    Price price;
 
     CurrencyUnit currency;
 
     public Product() {} // JPA
 
-    public Product(BigMoney price) {
+    public Product(Price price) {
         this();
         this.price = price;
     }
@@ -51,17 +43,16 @@ public class Product {
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
 
-    @JsonGetter
-    public BigMoney getPrice() {
+    public Price getPrice() {
         return price;
     }
 
-    @JsonSetter
-    public void setPrice(BigMoney price) {
+    public void setPrice(Price price) {
         this.price = price;
     }
 
