@@ -5,6 +5,7 @@ import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS
 
 import java.util.Locale;
 
+import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,16 +49,17 @@ public class JacksonCustomization implements Jackson2ObjectMapperBuilderCustomiz
         public void setupModule(SetupContext context) {
 
             final SimpleSerializers serializers = new SimpleSerializers();
-            serializers.addSerializer(Money.class, new MoneySerializer());
+            serializers.addSerializer(BigMoney.class, new MoneySerializer());
             serializers.addSerializer(CurrencyUnit.class, new CurrencyUnitSerializer());
             context.addSerializers(serializers);
 
-            final SimpleDeserializers deserializers = new SimpleDeserializers();
-            deserializers.addDeserializer(Money.class, new MoneyDeserializer());
-            context.addDeserializers(deserializers);
+//            final SimpleDeserializers deserializers = new SimpleDeserializers();
+//            deserializers.addDeserializer(Money.class, new MoneyDeserializer());
+//            context.addDeserializers(deserializers);
 
             final SimpleValueInstantiators instantiators = new SimpleValueInstantiators();
             instantiators.addValueInstantiator(CurrencyUnit.class, new CurrencyUnitDeserializer());
+//            instantiators.addValueInstantiator(Money.class, new MoneyDeserializer());
             context.addValueInstantiators(instantiators);
 
         }

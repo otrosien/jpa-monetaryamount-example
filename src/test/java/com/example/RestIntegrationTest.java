@@ -32,7 +32,7 @@ public class RestIntegrationTest {
     private MockMvc mockMvc;
 
     @Before
-    public void setup() {
+    public void setup() throws Exception {
         mockMvc = webAppContextSetup(ctx).build();
     }
 
@@ -51,35 +51,35 @@ public class RestIntegrationTest {
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(jsonPath("currency", is("EUR")))
-        .andExpect(jsonPath("price.content.amount", is(1.23)))
-        .andExpect(jsonPath("price.content.currency", is("EUR")))
+        .andExpect(jsonPath("price.amount", is(1.23)))
+        .andExpect(jsonPath("price.currency", is("EUR")))
         .andReturn();
-//
-//        result = mockMvc.perform(put(location).content("{\"currency\":\"GBP\", \"price\": {\"amount\": 1.24, \"currency\":\"GBP\" }}"))
-//        .andDo(print())
-//        .andExpect(status().isNoContent())
-//        .andReturn();
-//
-//        result = mockMvc.perform(get(location))
-//        .andDo(print())
-//        .andExpect(status().isOk())
-//        .andExpect(jsonPath("currency", is("GBP")))
-//        .andExpect(jsonPath("price.content.amount", is(1.24)))
-//        .andExpect(jsonPath("price.content.currency", is("GBP")))
-//        .andReturn();
-//
-//        result = mockMvc.perform(patch(location).content("{\"currency\":\"USD\", \"price\": {\"amount\": 1.25, \"currency\":\"USD\" }}"))
-//        .andDo(print())
-//        .andExpect(status().isNoContent())
-//        .andReturn();
-//
-//        result = mockMvc.perform(get(location))
-//        .andDo(print())
-//        .andExpect(status().isOk())
-//        .andExpect(jsonPath("currency", is("USD")))
-//        .andExpect(jsonPath("price.content.amount", is(1.25)))
-//        .andExpect(jsonPath("price.content.currency", is("USD")))
-//        .andReturn();
+
+        result = mockMvc.perform(put(location).content("{\"currency\":\"GBP\", \"price\": {\"amount\": 1.24, \"currency\":\"GBP\" }}"))
+        .andDo(print())
+        .andExpect(status().isNoContent())
+        .andReturn();
+
+        result = mockMvc.perform(get(location))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("currency", is("GBP")))
+        .andExpect(jsonPath("price.amount", is(1.24)))
+        .andExpect(jsonPath("price.currency", is("GBP")))
+        .andReturn();
+
+        result = mockMvc.perform(patch(location).content("{\"currency\":\"USD\", \"price\": {\"amount\": 1.25, \"currency\":\"USD\" }}"))
+        .andDo(print())
+        .andExpect(status().isNoContent())
+        .andReturn();
+
+        result = mockMvc.perform(get(location))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("currency", is("USD")))
+        .andExpect(jsonPath("price.amount", is(1.25)))
+        .andExpect(jsonPath("price.currency", is("USD")))
+        .andReturn();
 
     }
 }
