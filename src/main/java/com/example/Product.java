@@ -26,7 +26,7 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy=IDENTITY)
-    Integer id;
+    private Integer id;
 
     @Transformation(fetch=FetchType.EAGER, optional=true)
     @ReadTransformer(transformerClass=MonetaryAmountAdapter.ReadTransformer.class)
@@ -34,9 +34,9 @@ public class Product {
         @WriteTransformer(column=@Column(name="PRICE_AMOUNT", columnDefinition="NUMERIC(17,4)"), transformerClass=MonetaryAmountAdapter.WriteAmountTransformer.class),
         @WriteTransformer(column=@Column(name="PRICE_CURRENCY"), transformerClass=MonetaryAmountAdapter.WriteCurrencyTransformer.class)
     })
-    MonetaryAmount price;
+    private MonetaryAmount price;
 
-    Currency currency;
+    private Currency currency;
 
     public Product() {} // JPA
 
@@ -67,5 +67,4 @@ public class Product {
         this.currency = currency;
     }
 
-    
 }
