@@ -7,13 +7,11 @@ import java.math.BigDecimal;
 import javax.persistence.Access;
 import javax.persistence.Embeddable;
 
-import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Embeddable
 @Access(FIELD)
@@ -27,19 +25,17 @@ public class Price {
     private Price() { /* JPA */ }
 
     @JsonCreator
-    private Price(@JsonProperty("amount") BigDecimal amount, @JsonProperty("currency") CurrencyUnit currency) {
-        this.amount = amount;
-        this.currency = currency;
+    private Price(BigDecimal amount, CurrencyUnit currency) {
+        moneyValue(Money.of(currency, amount));
     }
 
     public Price(Money money) {
-        this.amount = money.getAmount();
-        this.currency = money.getCurrencyUnit();
+        moneyValue(money);
     }
 
     @JsonGetter
     private BigDecimal getAmount() {
-        return amount;
+        return amount.stripTrailingZeros();
     }
 
     @JsonGetter
@@ -47,9 +43,12 @@ public class Price {
         return currency;
     }
 
+    private void moneyValue(Money money) {
+        this.currency = money.getCurrencyUnit();
+        this.amount = money.getAmount();
+    }
+
     public Money moneyValue() {
-        // this doesn't work:
-        // return Money.of(currency, amount);
-        return BigMoney.of(currency, amount).toMoney();
+        return Money.of(currency, amount.stripTrailingZeros());
     }
 }
