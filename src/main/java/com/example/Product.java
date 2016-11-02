@@ -36,6 +36,7 @@ public class Product {
     })
     private MonetaryAmount price;
 
+    // Unfortunately NOT using javax.money.CurrencyUnit, as JSON-Patching would fail.
     private Currency currency;
 
     public Product() {} // JPA
