@@ -111,7 +111,6 @@ public class RestIntegrationTest {
         .andDo(print())
         .andExpect(status().isCreated())
         .andReturn();
-        URI location = URI.create(result.getResponse().getHeader("Location"));
-        return location;
+        return URI.create(result.getResponse().getHeader("Location"));
     }
 }
