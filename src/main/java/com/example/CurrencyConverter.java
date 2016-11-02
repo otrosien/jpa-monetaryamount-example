@@ -1,15 +1,15 @@
 package com.example;
 
-import javax.money.CurrencyUnit;
-import javax.money.Monetary;
+import java.util.Currency;
+
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 @Converter(autoApply=true)
-public class CurrencyUnitConverter implements AttributeConverter<CurrencyUnit, String> {
+public class CurrencyConverter implements AttributeConverter<Currency, String> {
 
     @Override
-    public String convertToDatabaseColumn(CurrencyUnit attribute) {
+    public String convertToDatabaseColumn(Currency attribute) {
         if (attribute == null) {
             return null;
         }
@@ -17,10 +17,10 @@ public class CurrencyUnitConverter implements AttributeConverter<CurrencyUnit, S
     }
 
     @Override
-    public CurrencyUnit convertToEntityAttribute(String dbData) {
+    public Currency convertToEntityAttribute(String dbData) {
         if (dbData == null) {
             return null;
         }
-        return Monetary.getCurrency(dbData);
+        return Currency.getInstance(dbData);
     }
 }

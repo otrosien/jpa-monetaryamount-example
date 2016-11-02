@@ -2,7 +2,8 @@ package com.example;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import javax.money.CurrencyUnit;
+import java.util.Currency;
+
 import javax.money.MonetaryAmount;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -35,7 +36,7 @@ public class Product {
     })
     MonetaryAmount price;
 
-    CurrencyUnit currency;
+    Currency currency;
 
     public Product() {} // JPA
 
@@ -58,11 +59,11 @@ public class Product {
         this.price = price;
     }
 
-    public CurrencyUnit getCurrency() {
+    public Currency getCurrency() {
         return currency;
     }
 
-    public void setCurrency(CurrencyUnit currency) {
+    public void setCurrency(Currency currency) {
         this.currency = currency;
     }
 
