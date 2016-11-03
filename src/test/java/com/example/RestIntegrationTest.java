@@ -86,7 +86,7 @@ public class RestIntegrationTest {
     @Test
     public void should_patch_with_json_patch() throws Exception {
         mockMvc.perform(patch(location)
-                .content("[{\"op\":\"replace\",\"path\":\"/price\",\"value\":{\"amount\":\"1.26\", \"currency\":\"CHF\"}},"
+                .content("[{\"op\":\"replace\",\"path\":\"/price\",\"value\":{\"amount\":1.26, \"currency\":\"CHF\"}},"
                         + "{\"op\":\"replace\",\"path\":\"/currency\",\"value\":\"CHF\"}]")
                 .contentType(JSON_PATCH_JSON))
         .andDo(print())
