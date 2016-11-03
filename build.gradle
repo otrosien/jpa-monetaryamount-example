@@ -28,7 +28,7 @@ repositories {
 
 dependencyManagement {
     imports {
-        ext['spring-data-releasetrain.version'] = 'Hopper-SR4'
+        ext['spring-data-releasetrain.version'] = 'Hopper-SR5'
     }
 }
 
